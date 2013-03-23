@@ -1,6 +1,8 @@
-from pyflakes.checker import Binding, Assignment, Checker
 import _ast
 import re
+import sys
+
+from pyflakes.checker import Binding, Assignment, Checker
 import pytest
 
 
@@ -115,11 +117,14 @@ class Ignorer:
 
 def check_file(path, flakesignore):
     codeString = path.read()
-    filename = unicode(path)
+    if sys.version_info < (3, 0):
+        filename = unicode(path)
+    else:
+        filename = str(path)
     errors = []
     try:
         tree = compile(codeString, filename, "exec", _ast.PyCF_ONLY_AST)
-    except SyntaxError, value:
+    except SyntaxError as value:
         (lineno, offset, text) = value.lineno, value.offset, value.text
         if text is None:
             errors.append("%s: problem decoding source" % filename)
@@ -139,7 +144,7 @@ def check_file(path, flakesignore):
     else:
         # Okay, it's syntactically valid.  Now check it.
         w = Checker(tree, filename)
-        w.messages.sort(lambda a, b: cmp(a.lineno, b.lineno))
+        w.messages.sort(key=lambda m: m.lineno)
         for warning in w.messages:
             if warning.__class__.__name__ in flakesignore:
                 continue
