@@ -148,8 +148,9 @@ def check_file(path, flakesignore):
         # Okay, it's syntactically valid.  Now check it.
         w = Checker(tree, filename)
         w.messages.sort(key=lambda m: m.lineno)
+        lines = codeString.split('\n')
         for warning in w.messages:
-            if warning.__class__.__name__ in flakesignore:
+            if warning.__class__.__name__ in flakesignore or lines[warning.lineno - 1].endswith('# noqa'):
                 continue
             errors.append(
                 '%s:%s: %s\n%s' % (
