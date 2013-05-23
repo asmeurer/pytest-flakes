@@ -150,7 +150,7 @@ def check_file(path, flakesignore):
         w.messages.sort(key=lambda m: m.lineno)
         lines = codeString.split('\n')
         for warning in w.messages:
-            if warning.__class__.__name__ in flakesignore or lines[warning.lineno - 1].endswith('# noqa'):
+            if warning.__class__.__name__ in flakesignore or is_ignored_line(lines[warning.lineno - 1].strip()):
                 continue
             errors.append(
                 '%s:%s: %s\n%s' % (
@@ -159,3 +159,8 @@ def check_file(path, flakesignore):
                     warning.__class__.__name__,
                     warning.message % warning.message_args))
         return len(errors), errors
+
+def is_ignored_line(line):
+    if line.endswith('# noqa') or line.endswith('# pragma: no flakes'):
+        return True
+    return False
