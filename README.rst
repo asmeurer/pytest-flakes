@@ -55,7 +55,7 @@ Running pyflakes checks and no other tests
 You can also restrict your test run to only perform "flakes" tests
 and not any other tests by typing::
 
-    py.test --flakes -k flakes
+    py.test --flakes -m flakes
 
 This will only run tests that are marked with the "flakes" keyword
 which is added for the flakes test items added by this plugin.
