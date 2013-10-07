@@ -2,6 +2,7 @@ from pyflakes.checker import Binding, Assignment, Checker
 import _ast
 import re
 import pytest
+import py
 
 
 def assignment_monkeypatched_init(self, name, source):
@@ -115,11 +116,11 @@ class Ignorer:
 
 def check_file(path, flakesignore):
     codeString = path.read()
-    filename = unicode(path)
+    filename = py.builtin._totext(path)
     errors = []
     try:
         tree = compile(codeString, filename, "exec", _ast.PyCF_ONLY_AST)
-    except SyntaxError, value:
+    except SyntaxError as value:
         (lineno, offset, text) = value.lineno, value.offset, value.text
         if text is None:
             errors.append("%s: problem decoding source" % filename)
@@ -139,7 +140,7 @@ def check_file(path, flakesignore):
     else:
         # Okay, it's syntactically valid.  Now check it.
         w = Checker(tree, filename)
-        w.messages.sort(lambda a, b: cmp(a.lineno, b.lineno))
+        w.messages.sort(key = lambda elem: elem.lineno)
         for warning in w.messages:
             if warning.__class__.__name__ in flakesignore:
                 continue
