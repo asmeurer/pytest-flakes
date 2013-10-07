@@ -54,7 +54,7 @@ class FlakesItem(pytest.Item, pytest.File):
 
     def __init__(self, path, parent, flakesignore):
         super(FlakesItem, self).__init__(path, parent)
-        self.keywords["flakes"] = True
+        self.add_marker("flakes")
         self.flakesignore = flakesignore
 
     def setup(self):

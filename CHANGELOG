@@ -1,0 +1,6 @@
+changes 0.1 to 0.2
+--------------------------
+
+- adapt to pytest-2.4.2 (internally using ``add_marker()`` API and
+  changing docs to state "-m flakes" is needed for running flakes tests only
+
