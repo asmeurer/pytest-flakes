@@ -160,6 +160,7 @@ def check_file(path, flakesignore):
                     warning.message % warning.message_args))
         return len(errors), errors
 
+
 def is_ignored_line(line):
     if line.endswith('# noqa') or line.endswith('# pragma: no flakes'):
         return True

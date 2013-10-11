@@ -61,6 +61,15 @@ This will only run tests that are marked with the "flakes" keyword
 which is added for the flakes test items added by this plugin.
 
 
+Ignoring some errors
+--------------------
+
+You can ignore errors per line by appending special comments to them like this::
+
+    import sys # noqa
+    app # pragma: no flakes
+
+
 Notes
 -----
 
@@ -77,6 +86,9 @@ Changes
 
 0.2 - Unreleased
 ----------------
+
+- Allow errors to be skipped per line by appending # noqa or # pragma: no flakes
+  [fschulze, silviot (Silvio Tomatis)]
 
 - Python 3.x compatibility.
   [fschulze, encukou (Petr Viktorin)]
