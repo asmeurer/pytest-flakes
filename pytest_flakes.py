@@ -17,9 +17,11 @@ HISTKEY = "flakes/mtimes"
 
 def pytest_addoption(parser):
     group = parser.getgroup("general")
-    group.addoption('--flakes', action='store_true',
+    group.addoption(
+        '--flakes', action='store_true',
         help="run pyflakes on .py files")
-    parser.addini("flakes-ignore", type="linelist",
+    parser.addini(
+        "flakes-ignore", type="linelist",
         help="each line specifies a glob pattern and whitespace "
              "separated pyflakes errors which will be ignored, "
              "example: *.py UnusedImport")
