@@ -18,6 +18,32 @@ if you then type::
 every file ending in ``.py`` will be discovered and run through pyflakes,
 starting from the command line arguments.
 
+Simple usage example
+-----------------------------
+
+Consider you have this code::
+
+    # content of module.py
+
+    import os
+    from os.path import *
+
+    def some_function():
+        pass
+
+Running it with pytest-flakes installed shows two issues::
+
+    $ py.test -q --flakes 
+    F
+    ================================= FAILURES =================================
+    ______________________________ pyflakes-check ______________________________
+    /tmp/doc-exec-685/module.py:2: UnusedImport
+    'os' imported but unused
+    /tmp/doc-exec-685/module.py:3: ImportStarUsed
+    'from os.path import *' used; unable to detect undefined names
+    1 failed in 0.00 seconds
+
+This is only one of the many issues that pytest-flakes can find.
 
 Configuring pyflakes options per project and file
 -------------------------------------------------
@@ -28,19 +54,25 @@ or ``setup.cfg`` file like this::
 
     # content of setup.cfg
     [pytest]
-    flakes-ignore = UnusedImport
+    flakes-ignore = ImportStarUsed
 
-This would globally prevent complaints about two whitespace issues.
+This would globally prevent complaints about star imports.
 Rerunning with the above example will now look better::
 
     $ py.test -q --flakes
-    collecting ... collected 1 items
-    .
-    1 passed in 0.01 seconds
+    F
+    ================================= FAILURES =================================
+    _________________ pyflakes-check(ignoring ImportStarUsed) __________________
+    /tmp/doc-exec-685/module.py:2: UnusedImport
+    'os' imported but unused
+    1 failed in 0.00 seconds
 
-If you have some files where you want to specifically ignore
-some errors or warnings you can start a flakes-ignore line with
-a glob-pattern and a space-separated list of codes::
+But of course we still would want to delete the ``import os`` line to
+have a clean pass.  
+
+If you have some files where you want to specifically ignore some errors
+or warnings you can start a flakes-ignore line with a glob-pattern and a
+space-separated list of codes::
 
     # content of setup.cfg
     [pytest]
@@ -48,25 +80,9 @@ a glob-pattern and a space-separated list of codes::
         *.py UnusedImport
         doc/conf.py ALL
 
-
-Running pyflakes checks and no other tests
-------------------------------------------
-
-You can also restrict your test run to only perform "flakes" tests
-and not any other tests by typing::
-
-    py.test --flakes -m flakes
-
-If you are using pytest < 2.4.x, then use the following::
-
-    py.test --flakes -k flakes
-
-This will only run tests that are marked with the "flakes" keyword
-which is added for the flakes test items added by this plugin.
-
-
-Ignoring some errors
---------------------
+ 
+Ignoring certain lines in files
+-------------------------------
 
 You can ignore errors per line by appending special comments to them like this::
 
@@ -74,12 +90,23 @@ You can ignore errors per line by appending special comments to them like this::
     app # pragma: no flakes
 
 
+Running pyflakes checks and no other tests
+------------------------------------------
+
+You can restrict your test run to only perform "flakes" tests
+and not any other tests by typing::
+
+    py.test --flakes -m flakes
+
+This will only run tests that are marked with the "flakes" keyword
+which is added for the flakes test items added by this plugin.
+
+
+
 Notes
 -----
 
-The repository of this plugin is at https://github.com/fschulze/pytest-flakes
-
-For more info on py.test see http://pytest.org
+@ -83,26 +102,3 @@ For more info on py.test see http://pytest.org
 
 The code is partially based on Ronny Pfannschmidt's pytest-codecheckers plugin
 and Holger Krekel's pytest-pep8.
