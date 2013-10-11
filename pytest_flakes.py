@@ -1,12 +1,9 @@
 from pyflakes.checker import Binding, Assignment, Checker
 import _ast
 import re
+import py
 import pytest
 import sys
-
-
-if sys.version_info >= (3, 0):  # pragma: nocover
-    unicode = str
 
 
 def assignment_monkeypatched_init(self, name, source):
@@ -125,7 +122,7 @@ class Ignorer:
 
 def check_file(path, flakesignore):
     codeString = path.read()
-    filename = unicode(path)
+    filename = py.builtin._totext(path)
     errors = []
     try:
         tree = compile(codeString, filename, "exec", _ast.PyCF_ONLY_AST)
