@@ -2,6 +2,11 @@ from pyflakes.checker import Binding, Assignment, Checker
 import _ast
 import re
 import pytest
+import sys
+
+
+if sys.version_info >= (3, 0):  # pragma: nocover
+    unicode = str
 
 
 def assignment_monkeypatched_init(self, name, source):
@@ -121,7 +126,8 @@ def check_file(path, flakesignore):
     errors = []
     try:
         tree = compile(codeString, filename, "exec", _ast.PyCF_ONLY_AST)
-    except SyntaxError, value:
+    except SyntaxError:
+        value = sys.exc_info()[1]
         (lineno, offset, text) = value.lineno, value.offset, value.text
         if text is None:
             errors.append("%s: problem decoding source" % filename)
@@ -141,7 +147,7 @@ def check_file(path, flakesignore):
     else:
         # Okay, it's syntactically valid.  Now check it.
         w = Checker(tree, filename)
-        w.messages.sort(lambda a, b: cmp(a.lineno, b.lineno))
+        w.messages.sort(key=lambda m: m.lineno)
         for warning in w.messages:
             if warning.__class__.__name__ in flakesignore:
                 continue

@@ -70,3 +70,20 @@ For more info on py.test see http://pytest.org
 
 The code is partially based on Ronny Pfannschmidt's pytest-codecheckers plugin
 and Holger Krekel's pytest-pep8.
+
+
+Changes
+=======
+
+0.2 - Unreleased
+----------------
+
+- Python 3.x compatibility.
+  [fschulze, encukou (Petr Viktorin)]
+
+
+0.1 - 2013-02-04
+----------------
+
+- Initial release.
+  [fschulze (Florian Schulze)]
