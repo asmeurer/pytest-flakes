@@ -101,6 +101,10 @@ and not any other tests by typing::
 This will only run tests that are marked with the "flakes" keyword
 which is added for the flakes test items added by this plugin.
 
+If you are using pytest < 2.4, then use the following invocation
+to the same effect::
+
+    py.test --flakes -k flakes
 
 
 Notes
