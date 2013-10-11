@@ -43,7 +43,7 @@ Running it with pytest-flakes installed shows two issues::
     'from os.path import *' used; unable to detect undefined names
     1 failed in 0.00 seconds
 
-This is only one of the many issues that pytest-flakes can find.
+This are only two of the many issues that pytest-flakes can find.
 
 Configuring pyflakes options per project and file
 -------------------------------------------------
@@ -70,9 +70,9 @@ Rerunning with the above example will now look better::
 But of course we still would want to delete the ``import os`` line to
 have a clean pass.  
 
-If you have some files where you want to specifically ignore some errors
-or warnings you can start a flakes-ignore line with a glob-pattern and a
-space-separated list of codes::
+If you have some files where you want to specifically ignore
+some errors or warnings you can start a flakes-ignore line with 
+a glob-pattern and a space-separated list of codes::
 
     # content of setup.cfg
     [pytest]
@@ -106,7 +106,9 @@ which is added for the flakes test items added by this plugin.
 Notes
 -----
 
-@ -83,26 +102,3 @@ For more info on py.test see http://pytest.org
+The repository of this plugin is at https://github.com/fschulze/pytest-flakes
+
+For more info on py.test see http://pytest.org
 
 The code is partially based on Ronny Pfannschmidt's pytest-codecheckers plugin
 and Holger Krekel's pytest-pep8.
