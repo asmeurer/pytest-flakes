@@ -88,7 +88,7 @@ and Holger Krekel's pytest-pep8.
 Changes
 =======
 
-0.2 - Unreleased
+0.2 - 2013-02-11
 ----------------
 
 - Adapt to pytest-2.4.2 using ``add_marker()`` API.
