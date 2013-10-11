@@ -5,7 +5,7 @@ if __name__ == "__main__":
         name='pytest-flakes',
         description='pytest plugin to check source code with pyflakes',
         long_description=open("README.rst").read(),
-        version='0.1',
+        version='0.2',
         author='Florian Schulze, Holger Krekel and Ronny Pfannschmidt',
         author_email='florian.schulze@gmx.net',
         url='https://github.com/fschulze/pytest-flakes',
