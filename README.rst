@@ -55,6 +55,10 @@ Running pyflakes checks and no other tests
 You can also restrict your test run to only perform "flakes" tests
 and not any other tests by typing::
 
+    py.test --flakes -m flakes
+
+If you are using pytest < 2.4.x, then use the following::
+
     py.test --flakes -k flakes
 
 This will only run tests that are marked with the "flakes" keyword
@@ -86,6 +90,9 @@ Changes
 
 0.2 - Unreleased
 ----------------
+
+- Adapt to pytest-2.4.2 using ``add_marker()`` API.
+  [fschulze, hpk42 (Holger Krekel)]
 
 - Allow errors to be skipped per line by appending # noqa or # pragma: no flakes
   [fschulze, silviot (Silvio Tomatis)]
