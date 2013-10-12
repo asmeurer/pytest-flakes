@@ -43,7 +43,7 @@ Running it with pytest-flakes installed shows two issues::
     'from os.path import *' used; unable to detect undefined names
     1 failed in 0.00 seconds
 
-This are only two of the many issues that pytest-flakes can find.
+These are only two of the many issues that pytest-flakes can find.
 
 Configuring pyflakes options per project and file
 -------------------------------------------------
