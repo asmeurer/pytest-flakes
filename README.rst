@@ -121,6 +121,13 @@ and Holger Krekel's pytest-pep8.
 Changes
 =======
 
+1.0 - Unreleased
+----------------
+
+- Clarified license to be MIT like pytest-pep8 from which this is derived.
+  [fschulze]
+
+
 0.2 - 2013-02-11
 ----------------
 
