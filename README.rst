@@ -124,6 +124,9 @@ Changes
 1.0 - Unreleased
 ----------------
 
+- Fix issue #6 - support PEP263 for source file encoding.
+  [The-Compiler (Florian Bruhin), fschulze]
+
 - Clarified license to be MIT like pytest-pep8 from which this is derived.
   [fschulze]
 
