@@ -121,8 +121,8 @@ and Holger Krekel's pytest-pep8.
 Changes
 =======
 
-1.0 - Unreleased
-----------------
+1.0.0 - 2015-05-01
+------------------
 
 - Fix issue #6 - support PEP263 for source file encoding.
   [The-Compiler (Florian Bruhin), fschulze]
