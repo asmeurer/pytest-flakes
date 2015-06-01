@@ -4,6 +4,7 @@ import re
 import py
 import pytest
 import sys
+import tokenize
 
 
 def assignment_monkeypatched_init(self, name, source):
@@ -121,7 +122,11 @@ class Ignorer:
 
 
 def check_file(path, flakesignore):
-    codeString = path.read()
+    if not hasattr(tokenize, 'open'):
+        codeString = path.read()
+    else:
+        with tokenize.open(path.strpath) as f:
+            codeString = f.read()
     filename = py.builtin._totext(path)
     errors = []
     try:
