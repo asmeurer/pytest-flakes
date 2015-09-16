@@ -118,7 +118,7 @@ class Ignorer:
                 if ignlist is None:
                     return None
                 l.update(set(ignlist))
-        return l
+        return sorted(l)
 
 
 def check_file(path, flakesignore):
