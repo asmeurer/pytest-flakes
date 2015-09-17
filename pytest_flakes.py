@@ -30,25 +30,27 @@ def pytest_addoption(parser):
              "example: *.py UnusedImport")
 
 
-def pytest_sessionstart(session):
-    config = session.config
+def pytest_configure(config):
+
     if config.option.flakes:
-        config._flakesignore = Ignorer(config.getini("flakes-ignore"))
-        config._flakesmtimes = config.cache.get(HISTKEY, {})
+        config._flakes = FlakesPlugin(config)
+        config.pluginmanager.register(config._flakes)
 
 
-def pytest_collect_file(path, parent):
-    config = parent.config
-    if config.option.flakes and path.ext == '.py':
-        flakesignore = config._flakesignore(path)
-        if flakesignore is not None:
-            return FlakesItem(path, parent, flakesignore)
+class FlakesPlugin(object):
+    def __init__(self, config):
+        self.ignore = Ignorer(config.getini("flakes-ignore"))
+        self.mtimes = config.cache.get(HISTKEY, {})
 
+    def pytest_collect_file(self, path, parent):
+        config = parent.config
+        if config.option.flakes and path.ext == '.py':
+            flakes_ignore = self.ignore(path)
+            if flakes_ignore is not None:
+                return FlakesItem(path, parent, flakes_ignore)
 
-def pytest_sessionfinish(session):
-    config = session.config
-    if hasattr(config, "_flakesmtimes"):
-        config.cache.set(HISTKEY, config._flakesmtimes)
+    def pytest_sessionfinish(self, session):
+        session.config.cache.set(HISTKEY, self.mtimes)
 
 
 class FlakesError(Exception):
@@ -66,10 +68,10 @@ class FlakesItem(pytest.Item, pytest.File):
         self.flakesignore = flakesignore
 
     def setup(self):
-        flakesmtimes = self.config._flakesmtimes
+        flakesmtimes = self.config._flakes.mtimes
         self._flakesmtime = self.fspath.mtime()
-        old = flakesmtimes.get(str(self.fspath), 0)
-        if old == (self._flakesmtime, self.flakesignore):
+        old = flakesmtimes.get(self.nodeid, 0)
+        if old == [self._flakesmtime, self.flakesignore]:
             pytest.skip("file(s) previously passed pyflakes checks")
 
     def runtest(self):
@@ -78,7 +80,7 @@ class FlakesItem(pytest.Item, pytest.File):
             raise FlakesError("\n".join(out))
         # update mtime only if test passed
         # otherwise failures would not be re-run next time
-        self.config._flakesmtimes[str(self.fspath)] = (self._flakesmtime, self.flakesignore)
+        self.config._flakes.mtimes[self.nodeid] = [self._flakesmtime, self.flakesignore]
 
     def repr_failure(self, excinfo):
         if excinfo.errisinstance(FlakesError):
@@ -118,7 +120,7 @@ class Ignorer:
                 if ignlist is None:
                     return None
                 l.update(set(ignlist))
-        return l
+        return sorted(l)
 
 
 def check_file(path, flakesignore):
