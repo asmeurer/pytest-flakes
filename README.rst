@@ -121,6 +121,13 @@ and Holger Krekel's pytest-pep8.
 Changes
 =======
 
+1.0.1 - 2015-09-17
+------------------
+
+- Compatibility with upcoming pytest.
+  [RonnyPfannschmidt (Ronny Pfannschmidt)]
+
+
 1.0.0 - 2015-05-01
 ------------------
 
