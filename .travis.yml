@@ -15,7 +15,7 @@ matrix:
     - python: pypy3
 
 install:
-  - pip install tox-travis
+  - travis_retry pip install tox-travis
 
 script:
-  - tox
+  - travis_retry tox
