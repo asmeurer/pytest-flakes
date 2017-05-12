@@ -121,7 +121,7 @@ and Holger Krekel's pytest-pep8.
 Changes
 =======
 
-2.0.0 - Unreleased
+2.0.0 - 2017-05-12
 ------------------
 
 - Dropped support/testing for Python 2.5, 2.6, 3.2.
