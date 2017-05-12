@@ -1,0 +1,4 @@
+include README.rst
+include LICENSE
+inlcude test_flakes.py
+include tox.ini
