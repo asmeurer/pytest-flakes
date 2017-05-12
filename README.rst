@@ -121,9 +121,17 @@ and Holger Krekel's pytest-pep8.
 Changes
 =======
 
-1.0.2 - Unreleased
+2.0.0 - Unreleased
 ------------------
 
+- Dropped support/testing for Python 2.5, 2.6, 3.2.
+  [fschulze]
+
+- Added testing for Python 3.6.
+  [fschulze]
+
+- Fixed some packaging and metadata errors.
+  [fladi (Michael Fladischer), fschulze]
 
 
 1.0.1 - 2015-09-17
