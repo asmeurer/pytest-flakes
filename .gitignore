@@ -1,4 +1,9 @@
 /.cache/
-/.coverage
+/.coverage*
 /.tox/
+/*.sublime-project
+/bin/
 /htmlcov*/
+/include/
+/lib/
+/pip-selfcheck.json
