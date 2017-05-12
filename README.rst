@@ -121,6 +121,11 @@ and Holger Krekel's pytest-pep8.
 Changes
 =======
 
+1.0.2 - Unreleased
+------------------
+
+
+
 1.0.1 - 2015-09-17
 ------------------
 
