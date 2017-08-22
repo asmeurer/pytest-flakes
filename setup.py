@@ -5,7 +5,7 @@ setup(
     description='pytest plugin to check source code with pyflakes',
     long_description=open("README.rst").read(),
     license="MIT license",
-    version='2.0.0',
+    version='3.0.0.dev0',
     author='Florian Schulze, Holger Krekel and Ronny Pfannschmidt',
     author_email='florian.schulze@gmx.net',
     url='https://github.com/fschulze/pytest-flakes',

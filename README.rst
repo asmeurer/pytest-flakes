@@ -121,6 +121,14 @@ and Holger Krekel's pytest-pep8.
 Changes
 =======
 
+3.0.0 - Unreleased
+------------------
+
+- Use pyflakes.api.isPythonFile to detect Python files. This might test more
+  files than before and thus could cause previously uncaught failures.
+  [asmeurer (Aaron Meurer)]
+
+
 2.0.0 - 2017-05-12
 ------------------
 
