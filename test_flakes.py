@@ -48,3 +48,10 @@ def test_pep263(testdir):
     testdir.makepyfile(b'\n# encoding=utf-8\n\nsnowman = "\xe2\x98\x83"\n'.decode("utf-8"))
     result = testdir.runpytest("--flakes")
     assert '1 passed in' in result.stdout.str()
+
+
+def test_non_py_ext(testdir):
+    testdir.makefile('', '#!/usr/bin/env python', 'import sys')
+    result = testdir.runpytest('--flakes')
+    assert "UnusedImport\n'sys' imported but unused" in result.stdout.str()
+    assert 'passed' not in result.stdout.str()

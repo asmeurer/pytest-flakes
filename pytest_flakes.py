@@ -1,4 +1,5 @@
 from pyflakes.checker import Binding, Assignment, Checker
+from pyflakes.api import isPythonFile
 import _ast
 import re
 import py
@@ -44,7 +45,7 @@ class FlakesPlugin(object):
 
     def pytest_collect_file(self, path, parent):
         config = parent.config
-        if config.option.flakes and path.ext == '.py':
+        if config.option.flakes and isPythonFile(path.strpath):
             flakes_ignore = self.ignore(path)
             if flakes_ignore is not None:
                 return FlakesItem(path, parent, flakes_ignore)
