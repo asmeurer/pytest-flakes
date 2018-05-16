@@ -121,7 +121,7 @@ and Holger Krekel's pytest-pep8.
 Changes
 =======
 
-3.0.0 - Unreleased
+3.0.0 - 2018-05-16
 ------------------
 
 - Drop support for Python 3.3. It still works so far, but isn't tested anymore.
