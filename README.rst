@@ -124,6 +124,9 @@ Changes
 3.0.0 - Unreleased
 ------------------
 
+- Drop support for Python 3.3. It still works so far, but isn't tested anymore.
+  [fschulze]
+
 - Add ``flakes`` marker required since pytest 3.1.
   [fschulze]
 
