@@ -121,6 +121,13 @@ and Holger Krekel's pytest-pep8.
 Changes
 =======
 
+3.0.2 - 2018-05-16
+------------------
+
+- Fix typo in name of ``flakes`` marker.
+  [fschulze]
+
+
 3.0.1 - 2018-05-16
 ------------------
 
