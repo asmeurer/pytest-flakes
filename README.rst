@@ -121,6 +121,14 @@ and Holger Krekel's pytest-pep8.
 Changes
 =======
 
+3.0.1 - 2018-05-16
+------------------
+
+- Always register ``flakes`` marker, not only when the ``--flakes`` option
+  is used.
+  [fschulze]
+
+
 3.0.0 - 2018-05-16
 ------------------
 
