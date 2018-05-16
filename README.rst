@@ -124,6 +124,9 @@ Changes
 3.0.0 - Unreleased
 ------------------
 
+- Add ``flakes`` marker required since pytest 3.1.
+  [fschulze]
+
 - Use pyflakes.api.isPythonFile to detect Python files. This might test more
   files than before and thus could cause previously uncaught failures.
   [asmeurer (Aaron Meurer)]

@@ -32,10 +32,10 @@ def pytest_addoption(parser):
 
 
 def pytest_configure(config):
-
     if config.option.flakes:
         config._flakes = FlakesPlugin(config)
         config.pluginmanager.register(config._flakes)
+        config.addinivalue_line('markers', "flake: Tests which run flake.")
 
 
 class FlakesPlugin(object):
