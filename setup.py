@@ -24,4 +24,4 @@ setup(
     ],
     py_modules=['pytest_flakes'],
     entry_points={'pytest11': ['flakes = pytest_flakes']},
-    install_requires=['pytest-cache', 'pytest>=2.3.dev14', 'pyflakes'])
+    install_requires=['pytest>=2.8.0', 'pyflakes'])
