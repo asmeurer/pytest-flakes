@@ -13,6 +13,7 @@ def assignment_monkeypatched_init(self, name, source):
     if name == '__tracebackhide__':
         self.used = True
 
+
 Assignment.__init__ = assignment_monkeypatched_init
 
 
@@ -97,7 +98,7 @@ class FlakesItem(pytest.Item, pytest.File):
 
 
 class Ignorer:
-    def __init__(self, ignorelines, coderex=re.compile("[EW]\d\d\d")):
+    def __init__(self, ignorelines, coderex=re.compile(r"[EW]\d\d\d")):
         self.ignores = ignores = []
         for line in ignorelines:
             i = line.find("#")
@@ -115,13 +116,13 @@ class Ignorer:
             ignores.append((glob, ign))
 
     def __call__(self, path):
-        l = set()
+        ignored = set()
         for (glob, ignlist) in self.ignores:
             if not glob or path.fnmatch(glob):
                 if ignlist is None:
                     return None
-                l.update(set(ignlist))
-        return sorted(l)
+                ignored.update(set(ignlist))
+        return sorted(ignored)
 
 
 def check_file(path, flakesignore):

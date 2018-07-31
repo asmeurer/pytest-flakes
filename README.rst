@@ -121,11 +121,14 @@ and Holger Krekel's pytest-pep8.
 Changes
 =======
 
-3.0.3 - 2018-07-31
+4.0.0 - 2018-07-31
 ------------------
 
+- Use pytest-codestyle instead of pytest-pep8. pep8 was renamed and is
+  maintained as pycodestyle. [smarlowucf]
 - Update pytest-cache requirement. Cache is included in pytest >= 2.8.0.
   [smarlowucf]
+- Remove executable bit from LICENSE file. [smarlowucf]
 
 3.0.2 - 2018-05-16
 ------------------
