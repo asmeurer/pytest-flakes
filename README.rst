@@ -126,7 +126,7 @@ Changes
 
 - Require pytest >= 2.8.0 and remove pytest-cache requirement.
   Cache is included in pytest since that version.
-  [smarlowucf]
+  [smarlowucf (Sean Marlow)]
 
 
 3.0.2 - 2018-05-16
