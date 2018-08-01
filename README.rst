@@ -121,11 +121,13 @@ and Holger Krekel's pytest-pep8.
 Changes
 =======
 
-3.0.3 - 2018-07-31
+4.0.0 - 2018-08-01
 ------------------
 
-- Update pytest-cache requirement. Cache is included in pytest >= 2.8.0.
+- Require pytest >= 2.8.0 and remove pytest-cache requirement.
+  Cache is included in pytest since that version.
   [smarlowucf]
+
 
 3.0.2 - 2018-05-16
 ------------------
