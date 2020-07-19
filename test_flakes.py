@@ -20,7 +20,7 @@ python_files=check_*.py
 for x in []
     pass
 """)
-    result = testdir.runpytest("--flakes", "--ignore", testdir)
+    result = testdir.runpytest("--flakes", "--ignore", testdir.tmpdir)
     assert "1: invalid syntax" in result.stdout.str()
     assert 'passed' not in result.stdout.str()
 
