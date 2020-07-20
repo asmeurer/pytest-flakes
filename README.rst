@@ -110,7 +110,7 @@ to the same effect::
 Notes
 -----
 
-The repository of this plugin is at https://github.com/fschulze/pytest-flakes
+The repository of this plugin is at https://github.com/asmeurer/pytest-flakes
 
 For more info on py.test see http://pytest.org
 

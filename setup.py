@@ -8,7 +8,7 @@ setup(
     version='4.0.0',
     author='Florian Schulze, Holger Krekel and Ronny Pfannschmidt',
     author_email='florian.schulze@gmx.net',
-    url='https://github.com/fschulze/pytest-flakes',
+    url='https://github.com/asmeurer/pytest-flakes',
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Framework :: Pytest',
