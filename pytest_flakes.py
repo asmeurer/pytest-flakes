@@ -48,13 +48,10 @@ class FlakesPlugin(object):
         if config.option.flakes and isPythonFile(path.strpath):
             flakesignore = self.ignore(path)
             if flakesignore is not None:
-                if hasattr(FlakesItem, "from_parent"):
-                    item = FlakesItem.from_parent(parent,
-                                                  fspath=path,
-                                                  flakesignore=flakesignore)
-                    return item
-                else:
-                    return FlakesItem(path, parent, flakesignore)
+                item = FlakesItem.from_parent(parent,
+                                              fspath=path,
+                                              flakesignore=flakesignore)
+                return item
 
     def pytest_sessionfinish(self, session):
         session.config.cache.set(HISTKEY, self.mtimes)
@@ -73,13 +70,6 @@ class FlakesItem(pytest.Item, pytest.File):
         else:
             self.keywords["flakes"] = True
         self.flakesignore = flakesignore
-
-    @classmethod
-    def from_parent(cls, parent, fspath, **kwargs):
-        flakesignore = kwargs.pop('flakesignore')
-        _self = getattr(super(FlakesItem, cls), 'from_parent', cls)(parent, flakesignore=flakesignore, fspath=fspath)
-        _self.setup()
-        return _self
 
     def setup(self):
         flakesmtimes = self.config._flakes.mtimes
