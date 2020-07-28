@@ -48,9 +48,12 @@ class FlakesPlugin(object):
         if config.option.flakes and isPythonFile(path.strpath):
             flakesignore = self.ignore(path)
             if flakesignore is not None:
-                item = FlakesItem.from_parent(parent,
-                                              fspath=path,
-                                              flakesignore=flakesignore)
+                if hasattr(FlakesItem, 'from_parent'):
+                    item = FlakesItem.from_parent(parent,
+                                                  fspath=path,
+                                                  flakesignore=flakesignore)
+                else:
+                    item = FlakesItem(path, parent, flakesignore)
                 return item
 
     def pytest_sessionfinish(self, session):
