@@ -33,7 +33,7 @@ Consider you have this code::
 
 Running it with pytest-flakes installed shows two issues::
 
-    $ py.test -q --flakes 
+    $ py.test -q --flakes
     F
     ================================= FAILURES =================================
     ______________________________ pyflakes-check ______________________________
@@ -68,10 +68,10 @@ Rerunning with the above example will now look better::
     1 failed in 0.00 seconds
 
 But of course we still would want to delete the ``import os`` line to
-have a clean pass.  
+have a clean pass.
 
 If you have some files where you want to specifically ignore
-some errors or warnings you can start a flakes-ignore line with 
+some errors or warnings you can start a flakes-ignore line with
 a glob-pattern and a space-separated list of codes::
 
     # content of setup.cfg
@@ -80,7 +80,7 @@ a glob-pattern and a space-separated list of codes::
         *.py UnusedImport
         doc/conf.py ALL
 
- 
+
 Ignoring certain lines in files
 -------------------------------
 
@@ -120,6 +120,21 @@ and Holger Krekel's pytest-pep8.
 
 Changes
 =======
+
+4.0.1 - 2020-07-28
+------------------
+
+- Maintenance of pytest-flakes has moved from fschulze to asmeurer. The repo
+  for pytest-flakes is now at https://github.com/asmeurer/pytest-flakes/
+
+- Fix test failures.
+  [asmeurer]
+
+- Fix deprecation warnings from pytest.
+  [asmeurer]
+
+- Fix invalid escape sequences.
+  [akeeman]
 
 4.0.0 - 2018-08-01
 ------------------
