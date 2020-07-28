@@ -55,3 +55,17 @@ def test_non_py_ext(testdir):
     result = testdir.runpytest('--flakes')
     assert "UnusedImport\n'sys' imported but unused" in result.stdout.str()
     assert 'passed' not in result.stdout.str()
+
+
+def test_flakesignore(testdir):
+    testdir.makeini("""
+[pytest]
+flakes-ignore = ImportStarUsed
+""")
+    testdir.makepyfile("""
+from os import *
+""")
+    result = testdir.runpytest("--flakes")
+    assert "ignoring ImportStarUsed" in result.stdout.str()
+    assert "1: ImportStarUsed" not in result.stdout.str()
+    assert 'passed' not in result.stdout.str()
