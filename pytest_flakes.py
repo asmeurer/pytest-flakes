@@ -46,9 +46,15 @@ class FlakesPlugin(object):
     def pytest_collect_file(self, path, parent):
         config = parent.config
         if config.option.flakes and isPythonFile(path.strpath):
-            flakes_ignore = self.ignore(path)
-            if flakes_ignore is not None:
-                return FlakesItem(path, parent, flakes_ignore)
+            flakesignore = self.ignore(path)
+            if flakesignore is not None:
+                if hasattr(FlakesItem, 'from_parent'):
+                    item = FlakesItem.from_parent(parent,
+                                                  fspath=path,
+                                                  flakesignore=flakesignore)
+                else:
+                    item = FlakesItem(path, parent, flakesignore)
+                return item
 
     def pytest_sessionfinish(self, session):
         session.config.cache.set(HISTKEY, self.mtimes)
@@ -60,8 +66,8 @@ class FlakesError(Exception):
 
 class FlakesItem(pytest.Item, pytest.File):
 
-    def __init__(self, path, parent, flakesignore):
-        super(FlakesItem, self).__init__(path, parent)
+    def __init__(self, fspath, parent, flakesignore):
+        super(FlakesItem, self).__init__(fspath, parent)
         if hasattr(self, 'add_marker'):
             self.add_marker("flakes")
         else:
