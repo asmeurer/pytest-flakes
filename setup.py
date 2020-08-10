@@ -8,6 +8,7 @@ setup(
     version='4.0.1',
     author='Florian Schulze, Holger Krekel and Ronny Pfannschmidt',
     url='https://github.com/asmeurer/pytest-flakes',
+    python_requires='>=3.5',
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Framework :: Pytest',
