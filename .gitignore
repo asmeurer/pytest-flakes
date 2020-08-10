@@ -7,3 +7,5 @@
 /include/
 /lib/
 /pip-selfcheck.json
+__pycache__
+pytest_flakes.egg-info

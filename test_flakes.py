@@ -1,4 +1,3 @@
-# coding=utf8
 pytest_plugins = "pytester",
 
 

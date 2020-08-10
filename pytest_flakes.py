@@ -38,7 +38,7 @@ def pytest_configure(config):
     config.addinivalue_line('markers', "flakes: Tests which run flake.")
 
 
-class FlakesPlugin(object):
+class FlakesPlugin:
     def __init__(self, config):
         self.ignore = Ignorer(config.getini("flakes-ignore"))
         self.mtimes = config.cache.get(HISTKEY, {})
@@ -48,12 +48,9 @@ class FlakesPlugin(object):
         if config.option.flakes and isPythonFile(path.strpath):
             flakesignore = self.ignore(path)
             if flakesignore is not None:
-                if hasattr(FlakesItem, 'from_parent'):
-                    item = FlakesItem.from_parent(parent,
-                                                  fspath=path,
-                                                  flakesignore=flakesignore)
-                else:
-                    item = FlakesItem(path, parent, flakesignore)
+                item = FlakesItem.from_parent(parent,
+                                              fspath=path,
+                                              flakesignore=flakesignore)
                 return item
 
     def pytest_sessionfinish(self, session):
@@ -67,7 +64,7 @@ class FlakesError(Exception):
 class FlakesItem(pytest.Item, pytest.File):
 
     def __init__(self, fspath, parent, flakesignore):
-        super(FlakesItem, self).__init__(fspath, parent)
+        super().__init__(fspath, parent)
         if hasattr(self, 'add_marker'):
             self.add_marker("flakes")
         else:
@@ -92,7 +89,7 @@ class FlakesItem(pytest.Item, pytest.File):
     def repr_failure(self, excinfo):
         if excinfo.errisinstance(FlakesError):
             return excinfo.value.args[0]
-        return super(FlakesItem, self).repr_failure(excinfo)
+        return super().repr_failure(excinfo)
 
     def reportinfo(self):
         if self.flakesignore:
@@ -152,10 +149,10 @@ def check_file(path, flakesignore):
                 offset = offset - (len(text) - len(line))
 
             msg = '%s:%d: %s' % (filename, lineno, value.args[0])
-            msg = "%s\n%s" % (msg, line)
+            msg = "{}\n{}".format(msg, line)
 
             if offset is not None:
-                msg = "%s\n%s" % (msg, "%s^" % (" " * offset))
+                msg = "{}\n{}".format(msg, "%s^" % (" " * offset))
             errors.append(msg)
         return 1, errors
     else:
@@ -167,7 +164,7 @@ def check_file(path, flakesignore):
             if warning.__class__.__name__ in flakesignore or is_ignored_line(lines[warning.lineno - 1].strip()):
                 continue
             errors.append(
-                '%s:%s: %s\n%s' % (
+                '{}:{}: {}\n{}'.format(
                     warning.filename,
                     warning.lineno,
                     warning.__class__.__name__,
