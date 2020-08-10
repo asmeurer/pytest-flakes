@@ -50,7 +50,7 @@ Configuring pyflakes options per project and file
 
 You may configure pyflakes-checking options for your project
 by adding an ``flakes-ignore`` entry to your ``setup.cfg``
-or ``setup.cfg`` file like this::
+or ``pytest.ini`` file like this::
 
     # content of setup.cfg
     [pytest]
