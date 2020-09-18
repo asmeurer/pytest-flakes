@@ -121,6 +121,11 @@ and Holger Krekel's pytest-pep8.
 Changes
 =======
 
+4.0.2 - 2020-09-18
+------------------
+
+- Fix calling pytest --flakes directly on an __init__.py file. [akeeman]
+
 4.0.1 - 2020-07-28
 ------------------
 
