@@ -48,10 +48,9 @@ class FlakesPlugin:
         if config.option.flakes and isPythonFile(path.strpath):
             flakesignore = self.ignore(path)
             if flakesignore is not None:
-                item = FlakesItem.from_parent(parent,
+                return FlakesFile.from_parent(parent,
                                               fspath=path,
                                               flakesignore=flakesignore)
-                return item
 
     def pytest_sessionfinish(self, session):
         session.config.cache.set(HISTKEY, self.mtimes)
@@ -61,15 +60,24 @@ class FlakesError(Exception):
     """ indicates an error during pyflakes checks. """
 
 
-class FlakesItem(pytest.Item, pytest.File):
+class FlakesFile(pytest.File):
+    def __init__(self, *k,  flakesignore, **kw):
+        super().__init__(*k, **kw)
+        self.flakesignore = flakesignore
 
-    def __init__(self, fspath, parent, flakesignore):
-        super().__init__(fspath, parent)
+    def collect(self):
+        return [FlakesItem.from_parent(self, name="flake-8")]
+
+
+class FlakesItem(pytest.Item):
+
+    def __init__(self, *k, **kw):
+        super().__init__(*k, **kw)
         if hasattr(self, 'add_marker'):
             self.add_marker("flakes")
         else:
             self.keywords["flakes"] = True
-        self.flakesignore = flakesignore
+        self.flakesignore = self.parent.flakesignore
 
     def setup(self):
         flakesmtimes = self.config._flakes.mtimes
