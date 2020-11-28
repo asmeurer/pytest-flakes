@@ -121,6 +121,11 @@ and Holger Krekel's pytest-pep8.
 Changes
 =======
 
+4.0.3 - 2020-11-27
+------------------
+
+- Future proof some code against future versions of pytest. [RonnyPfannschmidt]
+
 4.0.2 - 2020-09-18
 ------------------
 
