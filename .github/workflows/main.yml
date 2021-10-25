@@ -1,0 +1,41 @@
+name: main
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - python-version: '3.5'
+            tox-env: 'py35'
+          - python-version: '3.6'
+            tox-env: 'py36'
+          - python-version: '3.7'
+            tox-env: 'py37'
+          - python-version: '3.8'
+            tox-env: 'py38'
+          - python-version: '3.9'
+            tox-env: 'py39'
+          - python-version: 'pypy-3.7'
+            tox-env: 'pypy37'
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install dependencies
+        run: pip install tox
+
+      - name: Test
+        run: tox -e ${{ matrix.tox-env }}
