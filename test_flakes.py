@@ -1,3 +1,6 @@
+import sys
+
+
 pytest_plugins = "pytester",
 
 
@@ -20,7 +23,10 @@ for x in []
     pass
 """)
     result = testdir.runpytest("--flakes", "--ignore", testdir.tmpdir)
-    assert "1: invalid syntax" in result.stdout.str()
+    if sys.version_info >= (3, 10):
+        assert "1: expected ':'" in result.stdout.str()
+    else:
+        assert "1: invalid syntax" in result.stdout.str()
     assert 'passed' not in result.stdout.str()
 
 
