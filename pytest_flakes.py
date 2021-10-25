@@ -133,11 +133,8 @@ class Ignorer:
 
 
 def check_file(path, flakesignore):
-    if not hasattr(tokenize, 'open'):
-        codeString = path.read()
-    else:
-        with tokenize.open(path.strpath) as f:
-            codeString = f.read()
+    with tokenize.open(path.strpath) as f:
+        codeString = f.read()
     filename = py.builtin._totext(path)
     errors = []
     try:
