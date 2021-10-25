@@ -2,10 +2,13 @@ from pyflakes.checker import Binding, Assignment, Checker
 from pyflakes.api import isPythonFile
 import _ast
 import re
-import py
+import pathlib
 import pytest
 import sys
 import tokenize
+
+
+PYTEST_GTE_7 = hasattr(pytest, 'version_tuple') and pytest.version_tuple >= (7, 0)
 
 
 def assignment_monkeypatched_init(self, name, source):
@@ -43,14 +46,24 @@ class FlakesPlugin:
         self.ignore = Ignorer(config.getini("flakes-ignore"))
         self.mtimes = config.cache.get(HISTKEY, {})
 
-    def pytest_collect_file(self, path, parent):
-        config = parent.config
-        if config.option.flakes and isPythonFile(path.strpath):
-            flakesignore = self.ignore(path)
-            if flakesignore is not None:
-                return FlakesFile.from_parent(parent,
-                                              fspath=path,
-                                              flakesignore=flakesignore)
+    if PYTEST_GTE_7:
+        def pytest_collect_file(self, fspath, parent):
+            config = parent.config
+            if config.option.flakes and isPythonFile(str(fspath)):
+                flakesignore = self.ignore(fspath)
+                if flakesignore is not None:
+                    return FlakesFile.from_parent(parent,
+                                                  path=fspath,
+                                                  flakesignore=flakesignore)
+    else:
+        def pytest_collect_file(self, path, parent):
+            config = parent.config
+            if config.option.flakes and isPythonFile(path.strpath):
+                flakesignore = self.ignore(pathlib.Path(str(path)))
+                if flakesignore is not None:
+                    return FlakesFile.from_parent(parent,
+                                                  fspath=path,
+                                                  flakesignore=flakesignore)
 
     def pytest_sessionfinish(self, session):
         session.config.cache.set(HISTKEY, self.mtimes)
@@ -78,13 +91,20 @@ class FlakesItem(pytest.Item):
 
     def setup(self):
         flakesmtimes = self.config._flakes.mtimes
-        self._flakesmtime = self.fspath.mtime()
+        if PYTEST_GTE_7:
+            self._flakesmtime = self.path.stat().st_mtime
+        else:
+            self._flakesmtime = self.fspath.mtime()
         old = flakesmtimes.get(self.nodeid, 0)
         if old == [self._flakesmtime, self.flakesignore]:
             pytest.skip("file(s) previously passed pyflakes checks")
 
     def runtest(self):
-        found_errors, out = check_file(self.fspath, self.flakesignore)
+        if PYTEST_GTE_7:
+            found_errors, out = check_file(self.path, self.flakesignore)
+        else:
+            path = pathlib.Path(str(self.fspath))
+            found_errors, out = check_file(path, self.flakesignore)
         if found_errors:
             raise FlakesError("\n".join(out))
         # update mtime only if test passed
@@ -101,7 +121,10 @@ class FlakesItem(pytest.Item):
             ignores = "(ignoring %s)" % " ".join(self.flakesignore)
         else:
             ignores = ""
-        return (self.fspath, -1, "pyflakes-check%s" % ignores)
+        if PYTEST_GTE_7:
+            return (self.path, -1, "pyflakes-check%s" % ignores)
+        else:
+            return (self.fspath, -1, "pyflakes-check%s" % ignores)
 
 
 class Ignorer:
@@ -125,7 +148,7 @@ class Ignorer:
     def __call__(self, path):
         l = set()
         for (glob, ignlist) in self.ignores:
-            if not glob or path.fnmatch(glob):
+            if not glob or path.glob(glob):
                 if ignlist is None:
                     return None
                 l.update(set(ignlist))
@@ -133,9 +156,9 @@ class Ignorer:
 
 
 def check_file(path, flakesignore):
-    with tokenize.open(path.strpath) as f:
+    with tokenize.open(str(path)) as f:
         codeString = f.read()
-    filename = py.builtin._totext(path)
+    filename = str(path)
     errors = []
     try:
         tree = compile(codeString, filename, "exec", _ast.PyCF_ONLY_AST)
