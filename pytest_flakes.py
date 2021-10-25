@@ -73,10 +73,7 @@ class FlakesItem(pytest.Item):
 
     def __init__(self, *k, **kw):
         super().__init__(*k, **kw)
-        if hasattr(self, 'add_marker'):
-            self.add_marker("flakes")
-        else:
-            self.keywords["flakes"] = True
+        self.add_marker("flakes")
         self.flakesignore = self.parent.flakesignore
 
     def setup(self):
