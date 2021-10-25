@@ -106,12 +106,6 @@ class FlakesItem(pytest.Item):
             ignores = ""
         return (self.fspath, -1, "pyflakes-check%s" % ignores)
 
-    def collect(self):
-        """ returns a list of children (items and collectors)
-            for this collection node.
-        """
-        return (self,)
-
 
 class Ignorer:
     def __init__(self, ignorelines, coderex=re.compile(r"[EW]\d\d\d")):
