@@ -121,6 +121,12 @@ and Holger Krekel's pytest-pep8.
 Changes
 =======
 
+4.0.4 - 2021-10-26
+------------------
+- Fix pytest-flakes for deprecations in the upcoming pytest 7.0. [bluetech]
+- Fix the pytest-flakes test suite in Python 3.10. [bluetech]
+- Replace Travis CI with GitHub Actions. [bluetech]
+
 4.0.3 - 2020-11-27
 ------------------
 
