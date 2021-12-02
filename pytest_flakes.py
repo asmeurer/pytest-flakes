@@ -47,13 +47,13 @@ class FlakesPlugin:
         self.mtimes = config.cache.get(HISTKEY, {})
 
     if PYTEST_GTE_7:
-        def pytest_collect_file(self, fspath, parent):
+        def pytest_collect_file(self, file_path, parent):
             config = parent.config
-            if config.option.flakes and isPythonFile(str(fspath)):
-                flakesignore = self.ignore(fspath)
+            if config.option.flakes and isPythonFile(str(file_path)):
+                flakesignore = self.ignore(file_path)
                 if flakesignore is not None:
                     return FlakesFile.from_parent(parent,
-                                                  path=fspath,
+                                                  path=file_path,
                                                   flakesignore=flakesignore)
     else:
         def pytest_collect_file(self, path, parent):
