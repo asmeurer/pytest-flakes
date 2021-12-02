@@ -121,6 +121,10 @@ and Holger Krekel's pytest-pep8.
 Changes
 =======
 
+4.0.5 - 2021-12-02
+------------------
+- Further fixes for deprecations in the upcoming pytest 7.0. [nicoddemus]
+
 4.0.4 - 2021-10-26
 ------------------
 - Fix pytest-flakes for deprecations in the upcoming pytest 7.0. [bluetech]
