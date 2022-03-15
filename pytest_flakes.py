@@ -6,6 +6,7 @@ import pathlib
 import pytest
 import sys
 import tokenize
+import fnmatch
 
 
 PYTEST_GTE_7 = hasattr(pytest, 'version_tuple') and pytest.version_tuple >= (7, 0)
@@ -148,7 +149,7 @@ class Ignorer:
     def __call__(self, path):
         l = set()
         for (glob, ignlist) in self.ignores:
-            if not glob or path.glob(glob):
+            if not glob or fnmatch.fnmatch(path, glob):
                 if ignlist is None:
                     return None
                 l.update(set(ignlist))
